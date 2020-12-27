@@ -1,0 +1,17 @@
+# NodePort Service gives access to the cluster from the outside (used for dev purposes only)
+
+apiVersion: v1
+kind: Service
+metadata: 
+  name: buyers-nodeport-serv     
+spec: 
+  type: NodePort
+  selector: # which pods to expose to the outside traffic
+    app: buyers
+
+  # ports we wish to expose to the target pod  
+  ports:  
+    - name: buyers
+      protocol: TCP
+      port: 2222  # NodePort service port 
+      targetPort: 2222  # actual port our node app is listening to

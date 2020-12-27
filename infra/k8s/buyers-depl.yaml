@@ -1,0 +1,39 @@
+apiVersion: apps/v1  # which k8s api version to use to create k8s object
+kind: Deployment
+metadata: 
+  name: buyers-depl  # this name shows up on the console ( kubectl get deployments command )
+spec:
+  replicas: 1
+
+  # instructing deployment to find the pods with labels app:buyers 
+  selector:
+    matchLabels: 
+      app: buyers
+
+  # exact config of a pod we want this deployment to create [i.e. instructs deployment]   
+  template:    
+    metadata:   # this configuration applies to a pod  
+      labels:
+        app: buyers  # applies label to the pod that will be created 
+
+    #  blueprint for a pod     
+    spec:
+      containers:
+        - name: buyers
+          image: tanish22/buyer    
+          imagePullPolicy: Never 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: buyers-clusterip-serv
+spec:
+  type: ClusterIP
+  selector:
+    app: buyers
+  ports:
+    - name: buyers
+      protocol: TCP
+      port: 2222
+      targetPort: 2222

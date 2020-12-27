@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cars-depl
+spec: 
+  replicas: 1
+  selector:  
+    matchLabels:
+      app: cars
+  template:
+    metadata:
+      labels:
+        app: cars
+    spec:
+      containers:
+        - name: cars
+          image: tanish22/car
+          imagePullPolicy: Never
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cars-clusterip-serv
+spec:
+  type: ClusterIP
+  selector:
+    app: cars
+  ports:    
+    - name: cars
+      protocol: TCP
+      port: 4444
+      targetPort: 4444
+
+               
