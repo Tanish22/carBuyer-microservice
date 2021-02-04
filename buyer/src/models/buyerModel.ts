@@ -5,7 +5,7 @@ import {Password} from '../helpers/password';
 const saltRounds: any = 8;
 const saltPW: any = process.env.BCRYPT_HASH;
 
-//  building interfaces to tell tsc to check for the valid props in buyer constructor (new Buyer)
+//  building interfaces to tell tsc to properties required to create a buyer (new Buyer)
 interface BuyerAttr {
   name: string;
   email: string;
@@ -17,7 +17,7 @@ interface BuyerModel extends mongoose.Model<BuyerDoc> {
   buildBuyer(attrs: BuyerAttr): BuyerDoc;
 }
 
-//  tells tsc about the props the actual stored buyer doc will have
+//  tells tsc about the props the actual saved buyer doc will have
 interface BuyerDoc extends mongoose.Document {
   name: string;
   email: string;
@@ -65,7 +65,8 @@ buyerSchema.pre('save', async function (next: any) {
   next();
 })
 
-//  model function has a return type of BuyerModel as its passed as a 2nd arg
+//  2nd generic type i.e. <BuyerModel> states that mongoose.Model function will have a return type of BuyerModel
+       
 const Buyer = mongoose.model<BuyerDoc, BuyerModel>("buyer", buyerSchema);
 
 export { Buyer };

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { json } from "body-parser";
 
 import { config } from "dotenv"; // config method reads the env var files & save them
@@ -24,6 +24,10 @@ app.use(signOutRouter);
 app.use(currentUserRouter);
 app.use(deleteBuyerRouter);
 
+app.get('/api', (req: Request, res: Response) => {
+  res.send('<h1> Welcome to Car Buyer </h1>')
+})
+
 app.listen(PORT, async () => {
   try {
     await startDB();
@@ -32,7 +36,7 @@ app.listen(PORT, async () => {
     console.log(`listening to port ${PORT}`);
     console.log("v1.0.0");
   } 
-  catch (e) {
-    console.log(e, "Error connecting to the database !!");
+  catch (error) {
+    console.log(error, "Error connecting to the database !!");
   }
 });

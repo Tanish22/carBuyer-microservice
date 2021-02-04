@@ -1,0 +1,12 @@
+POST http://localhost:4444/api/car/createCar HTTP/1.1 
+Content-Type: application/json
+
+{
+    "brand" : "Mclaren",
+    "modelName" : "P1",
+    "price" : "$1m"
+}
+
+###
+
+GET http://localhost:4444 HTTP/1.1 

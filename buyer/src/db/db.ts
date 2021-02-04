@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
-const mongodb_atlas_url: string = `${process.env.MONGODB_ATLAS_URL}`;
+//const mongodb_atlas_url: string = `${process.env.MONGODB_ATLAS_URL}`;
+const atlas_user_url: any = process.env.ATLAS_USER_URL;
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(mongodb_atlas_url, {
+    await mongoose.connect(atlas_user_url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
