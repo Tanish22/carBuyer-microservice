@@ -1,13 +1,14 @@
 import express, {Request, Response} from "express";
 import {json} from "body-parser";
 
-import { startDB } from "./db/db"
-import { createCarRouter } from "./routes/createCar";
- 
-const app: any = express();
-
 import { config } from "dotenv";
 config();
+
+import { startDB } from "./db/db"
+import { createCarRouter } from "./routes/createCar";
+
+
+const app: any = express();
 
 const PORT: any = process.env.PORT;
 

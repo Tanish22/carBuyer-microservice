@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-//const mongodb_atlas_url: string = `${process.env.MONGODB_ATLAS_URL}`;
-const atlas_user_url: any = process.env.ATLAS_USER_URL;
+//const atlas_user_url: string = `${process.env.atlas_user_url}`;
+const atlas_user_url : any = process.env.ATLAS_USER_URL;
 
 const connectDB = async () => {
   try {
@@ -16,13 +16,15 @@ const connectDB = async () => {
     console.log(`${error} : Cant connect to the database !!`);
   }
 
-  mongoose.connection.on("connected", (err, res) => {
-    console.log("Connected to MongoDB");
-  });
-
-  mongoose.connection.on("error", (err) => {
-    console.log(`err : ${err}`);
-  });
+  finally {
+    mongoose.connection.on("connected", (err, res) => {
+      console.log("Connected to MongoDB");
+    });
+  
+    mongoose.connection.on("error", (err) => {
+      console.log(`err : ${err}`);
+    });
+  }
 };
 
 export { connectDB as startDB };

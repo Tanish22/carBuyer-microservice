@@ -1,10 +1,10 @@
-POST http://localhost:4444/api/car/createCar HTTP/1.1 
-Content-Type: application/json
+POST http://localhost:4444/api/cars/createCar 
+content-type: application/json
 
 {
     "brand" : "Mclaren",
-    "modelName" : "P1",
-    "price" : "$1m"
+    "modelName" : "Artura",
+    "price" : 200000
 }
 
 ###

@@ -34,9 +34,9 @@ POST http://localhost:2222/api/buyers/signUp
 content-Type: application/json
 
 {
-    "name": "Black Sails4",
-    "email": "black2@sails4.com",
-    "password": "blacksails4"
+    "name": "Black Sails",
+    "email": "black@sails.com",
+    "password": "blacksails"
 }
 
 ###
