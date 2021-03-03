@@ -1,7 +1,10 @@
 import express, { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
+import JWT from 'jsonwebtoken';
 
 import { Buyer } from "../models/buyerModel";
+
+const JWT_SECRET: any = process.env.JWT_SECRET;
 
 const router = express.Router();
 
@@ -43,9 +46,16 @@ router.post(
       const buyer = Buyer.buildBuyer({ name, email, password });
       await buyer.save();
 
-      console.log(buyer);            
+      const token = JWT.sign({
+        iss: 'Tanish',
+        sub: buyer.id,
+        iat: new Date().getTime(),  // current time
+        exp: new Date().setDate(new Date().getDate() + 1) // current time + 24 hrs
+      }, JWT_SECRET)
 
-      res.status(201).send(buyer);
+      console.log(`buyer: ${buyer}, token: ${token}`);            
+
+      res.status(201).send({buyer, token});
     }
     catch(e){
       console.log(e);      

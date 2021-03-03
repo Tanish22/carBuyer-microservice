@@ -9,7 +9,7 @@ export class Password {
 
   static async comparePassword( salt: string, password: string ){
     const isMatch = bcrypt.compare(salt, password);
-
+ 
     return isMatch;
   }
 }

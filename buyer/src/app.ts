@@ -25,7 +25,7 @@ app.use(currentUserRouter);
 app.use(deleteBuyerRouter);
 
 app.get('/api', (req: Request, res: Response) => {
-  res.send('<h1> Welcome to Car Buyer </h1>')
+  res.send('Welcome to Car Buyer !!')
 })
 
 app.listen(PORT, async () => {
