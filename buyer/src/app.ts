@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { json } from "body-parser";
+import cors from "cors";
 
 import { config } from "dotenv"; // config method reads the env var files & save them
 config();
@@ -10,11 +11,13 @@ import { signInRouter } from "./routes/signIn";
 import { signOutRouter } from "./routes/signOut";
 import { currentUserRouter } from "./routes/current-user";
 import { deleteBuyerRouter } from "./routes/clearDB";
+import { allBuyers } from "./routes/allBuyers";
 
 const app = express();
 
 const PORT = process.env.PORT;
 
+app.use(cors());
 app.use(json());
 
 // route middlewares
@@ -23,6 +26,7 @@ app.use(signInRouter);
 app.use(signOutRouter);
 app.use(currentUserRouter);
 app.use(deleteBuyerRouter);
+app.use(allBuyers);
 
 app.get('/api', (req: Request, res: Response) => {
   res.send('Welcome to Car Buyer !!')

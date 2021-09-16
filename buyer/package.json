@@ -8,7 +8,9 @@
   "author": "TANISH GUPTE",
   "license": "ISC",
   "dependencies": {
+    "@types/cors": "^2.8.10",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-validator": "^6.7.0",
     "mongoose": "^5.11.2",

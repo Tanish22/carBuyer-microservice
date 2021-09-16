@@ -2,11 +2,11 @@ POST http://localhost:4444/api/cars/createCar
 content-type: application/json
 
 {
-    "brand" : "Mclaren",
-    "modelName" : "Artura",
-    "price" : 200000
+    "brand" : "Mercedes",
+    "modelName" : "AMG One",
+    "price" : 2200000
 }
 
 ###
 
-GET http://localhost:4444 HTTP/1.1 
+GET http://localhost:4444/api/cars/getCars HTTP/1.1 

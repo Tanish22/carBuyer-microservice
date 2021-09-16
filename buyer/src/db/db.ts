@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-//const atlas_user_url: string = `${process.env.atlas_user_url}`;
 const atlas_user_url : any = process.env.ATLAS_USER_URL;
 
 const connectDB = async () => {

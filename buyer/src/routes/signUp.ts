@@ -8,6 +8,15 @@ const JWT_SECRET: any = process.env.JWT_SECRET;
 
 const router = express.Router();
 
+const generateToken = (newBuyer: any): any => {
+  return JWT.sign({
+    iss: 'Tanish',
+    sub: newBuyer.id,
+    iat: new Date().getTime(),  // current time
+    exp: new Date().setDate(new Date().getDate() + 1) // current time + 24 hrs
+  }, JWT_SECRET)
+}
+
 router.post(
   "/api/buyers/signUp",
   [
@@ -23,7 +32,7 @@ router.post(
       .trim()
       .isLength({ min: 6, max: 14 })
       .withMessage("Please enter your Password"),
-  ],
+  ],                                                    
 
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -46,16 +55,11 @@ router.post(
       const buyer = Buyer.buildBuyer({ name, email, password });
       await buyer.save();
 
-      const token = JWT.sign({
-        iss: 'Tanish',
-        sub: buyer.id,
-        iat: new Date().getTime(),  // current time
-        exp: new Date().setDate(new Date().getDate() + 1) // current time + 24 hrs
-      }, JWT_SECRET)
+      const jwtToken = generateToken(buyer)
 
-      console.log(`buyer: ${buyer}, token: ${token}`);            
-
-      res.status(201).send({buyer, token});
+      console.log(`buyer: ${buyer}, token: ${jwtToken}`);            
+      
+      res.status(201).send({buyer, jwtToken});
     }
     catch(e){
       console.log(e);      

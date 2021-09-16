@@ -6,7 +6,7 @@ config();
 
 import { startDB } from "./db/db"
 import { createCarRouter } from "./routes/createCar";
-
+import { getAllCarsRouter } from "./routes/allCars";
 
 const app: any = express();
 
@@ -16,6 +16,7 @@ app.use(json());
 
 //  route middlewares
 app.use(createCarRouter);
+app.use(getAllCarsRouter);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('<h1> Welcome to Car Service </h1>')
