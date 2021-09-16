@@ -2,9 +2,9 @@ POST http://localhost:2222/api/buyers/signUp HTTP/1.1
 content-Type: application/json
 
 {
-    "name": "Rotting Christ",
-    "email": "rotting@christ.com",
-    "password": "rottingchrist"
+    "name": "Into theWoods",
+    "email": "into@theWoods.com",
+    "password": "intotheWoods"
 }
 
 ###
