@@ -6,11 +6,14 @@ const CreateBuyer = () => {
     const [ email, setEmail ] = useState(''); 
     const [ password, setPassword ] = useState(''); 
 
+
     /* the usestate hook will enable to track the user changes to the input fields via onChange handler which
        inturn takes in a callback thats comes with the useState hook (setName fn) & stores that value in a
        variable (name) */
 
-    const submit = async (e) => {
+    /* e.target represents a dom element value hence is used in the function */   
+
+    const submitForm = async (e) => {
         try{
             e.preventDefault();
 
@@ -20,7 +23,7 @@ const CreateBuyer = () => {
                 password
             });
 
-            console.log(response.data);
+            console.log("from formSubmit", response.data);
         }
 
         catch(e){
@@ -28,10 +31,12 @@ const CreateBuyer = () => {
         }
     }
 
+     /* onChange is used to change the value of the value prop of input tag */
     return (
-        <>
-            <form align="center" onSubmit={submit}>
+        <>    
+            <form align="center" onSubmit={ submitForm }>
                 <h2>Sign Up</h2>
+
                 <div>
                     <label>Name</label> 
                     <input type="text" value={name} onChange={e => setName(e.target.value)} />

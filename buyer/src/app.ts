@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { json } from "body-parser";
 import cors from "cors";
+import cookieSession from "cookie-session";
 
 import { config } from "dotenv"; // config method reads the env var files & save them
 config();
@@ -12,13 +13,21 @@ import { signOutRouter } from "./routes/signOut";
 import { currentUserRouter } from "./routes/current-user";
 import { deleteBuyerRouter } from "./routes/clearDB";
 import { allBuyers } from "./routes/allBuyers";
-
+  
 const app = express();
+//app.set('trust proxy', true); // make express aware that it is behind a proxy of ingress-nginx
 
 const PORT = process.env.PORT;
 
 app.use(cors());
 app.use(json());
+
+// app.use(
+//   cookieSession({
+//     signed: false,
+//     secure: true, // cookies will be used only via https connection 
+//   })
+// )
 
 // route middlewares
 app.use(signUpRouter);

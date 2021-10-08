@@ -16,7 +16,7 @@ interface BuyerAttr {
 interface BuyerModel extends mongoose.Model<BuyerDoc> {
   buildBuyer(attrs: BuyerAttr): BuyerDoc;
 }
-
+ 
 //  tells tsc about the props the actual saved buyer doc will have
 interface BuyerDoc extends mongoose.Document {
   name: string;
@@ -42,7 +42,7 @@ const buyerSchema: mongoose.Schema = new mongoose.Schema(
       type: String,
       required: true,
     },
-  },
+  }, 
   {
     timestamps: true
   }

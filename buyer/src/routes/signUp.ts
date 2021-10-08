@@ -1,4 +1,7 @@
 import express, { Request, Response } from "express";
+import cookieParser from "cookie-parser";
+
+//  using body from express-validator validates req.body which is passed as a middleware 
 import { body, validationResult } from "express-validator";
 import JWT from 'jsonwebtoken';
 
@@ -8,6 +11,8 @@ const JWT_SECRET: any = process.env.JWT_SECRET;
 
 const router = express.Router();
 
+// router.use(cookieParser());
+ 
 const generateToken = (newBuyer: any): any => {
   return JWT.sign({
     iss: 'Tanish',
@@ -30,14 +35,14 @@ router.post(
 
     body("password")
       .trim()
-      .isLength({ min: 6, max: 14 })
+      .isLength({ min: 6, max: 16 })
       .withMessage("Please enter your Password"),
   ],                                                    
 
   async (req: Request, res: Response) => {
-    const errors = validationResult(req);
+    const errors = validationResult(req); 
 
-    try {
+    try {                  // will check for errors in the req & send the converted err obj into arr to the user
       if (!errors.isEmpty()) {
         return res.status(400).send(errors.array());        
       }
@@ -53,16 +58,21 @@ router.post(
       }
 
       const buyer = Buyer.buildBuyer({ name, email, password });
+
       await buyer.save();
 
-      const jwtToken = generateToken(buyer)
+      const jwtToken = generateToken(buyer);
 
       console.log(`buyer: ${buyer}, token: ${jwtToken}`);            
       
+      // setting a cookie & storing the "jwt" after the user has been created in the database & 
+      //res.cookie('myCookie', jwtToken);
+
       res.status(201).send({buyer, jwtToken});
     }
+
     catch(e){
-      console.log(e);      
+      console.log(e);                       
     }
   }
 );
