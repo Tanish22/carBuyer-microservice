@@ -1,12 +1,15 @@
 import express, { Request, Response } from "express";
 import { body , validationResult } from "express-validator";
-
-const saltPW: any = process.env.BCRYPT_HASH;
+import cookieParser from "cookie-parser";
 
 import { Buyer } from "../models/buyerModel";
-import { Password } from "../helpers/password"
+import { JwtToken } from "../helpers/jwtToken";
+import { Password } from "../helpers/password";
+import { auth } from "../helpers/middlewares/auth";
 
 const router = express.Router();
+
+router.use(cookieParser());
 
 router.post("/api/buyers/signIn", [
   body("email")
@@ -18,10 +21,15 @@ router.post("/api/buyers/signIn", [
     .notEmpty()
     .withMessage("Please provide a Password")  
 ], 
-async (req: Request, res: Response) => {        
+
+auth,
+
+async (req: Request, res: Response) => {  
+  console.log("from signin");
+  
   const errors = validationResult(req);
 
-  if(!errors.isEmpty){
+  if(!errors.isEmpty()){
     return res.status(400).send({ errors: errors.array() })
   }
 
@@ -29,17 +37,34 @@ async (req: Request, res: Response) => {
 
   const buyer = await Buyer.findOne({email});
 
+  // console.log(buyer);
+  
+  console.log("request cookies: ", req.cookies);
+  
   if(!buyer){
-    throw new Error("Invalid Credentials");
+    throw new Error("Invalid Credentials !");
   }
+
+  console.log("password ", password);
   
-  const pwMatches = await Password.comparePassword(saltPW, buyer.password);
+  console.log("buyer.password ", buyer.password);
   
+  //const pwMatches = await bcrypt.compare(password, buyer.password);
+  const pwMatches = await Password.comparePassword(password, buyer.password);
+
+  console.log("pwMatches ", pwMatches);
+
   if(!pwMatches){
     throw new Error("Invalid Credentials");
   }
-  
-  res.status(201).send(buyer);
+
+  const jwtToken = await JwtToken.generateJwt(buyer);
+
+  res.cookie("signIn-jwt", jwtToken, {"httpOnly": true});
+
+  // console.log(buyer);
+
+  res.status(200).send(buyer);
 });
 
 export { router as signInRouter };

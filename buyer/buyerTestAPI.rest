@@ -2,19 +2,19 @@ POST http://localhost:2222/api/buyers/signUp HTTP/1.1
 content-Type: application/json
 
 {
-    "name": "lugia aero2",
-    "email": "lugia@aero2.com",
-    "password": "lugiaaero2"
+    "name": "dragonite dragon",
+    "email": "dragonite@dragon.com",
+    "password": "dragonitedragon"
 }
 
 ###
 
-POST http://localhost:2222/api/buyers/signIn 
+POST http://localhost:2222/api/buyers/signIn HTTP/1.1
 content-type: application/json
 
 {
-    "email": "rotting@christ.com",
-    "password": "rottingchrist"
+    "email": "tanish@gupte.com",
+    "password": "tanishgupte"
 }
 
 ###
@@ -23,7 +23,7 @@ POST http://localhost:2222/api/buyers/signUp
 content-Type: application/json
 
 {
-    "name": "Tanish Gupte",
+    "name": "tanish gupte",
     "email": "tanish@gupte.com",
     "password": "tanishgupte"
 }
@@ -34,8 +34,8 @@ POST http://localhost:2222/api/buyers/signIn
 content-type: application/json
 
 {
-    "email": "tanish@gupte.com",
-    "password": "tanishgupte"
+    "email": "dragonite@dragon.com",
+    "password": "dragonitedragon"
 }
 
 ###
@@ -55,6 +55,9 @@ GET http://localhost:2222/api/buyers/currentUser/60685e0e2a7ba90728ea339f HTTP/1
 
 ###
 
+POST http://localhost:2222/api/buyers/signOut
+
+###
 DELETE http://localhost:2222/api/buyers/deleteMany HTTP/1.1
 
 ###

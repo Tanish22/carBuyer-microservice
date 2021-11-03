@@ -3,25 +3,15 @@ import cookieParser from "cookie-parser";
 
 //  using body from express-validator validates req.body which is passed as a middleware 
 import { body, validationResult } from "express-validator";
-import JWT from 'jsonwebtoken';
 
 import { Buyer } from "../models/buyerModel";
-
-const JWT_SECRET: any = process.env.JWT_SECRET;
+import { JwtToken } from "../helpers/jwtToken"; 
+import { auth } from "../helpers/middlewares/auth";
 
 const router = express.Router();
 
-// router.use(cookieParser());
+router.use(cookieParser());
  
-const generateToken = (newBuyer: any): any => {
-  return JWT.sign({
-    iss: 'Tanish',
-    sub: newBuyer.id,
-    iat: new Date().getTime(),  // current time
-    exp: new Date().setDate(new Date().getDate() + 1) // current time + 24 hrs
-  }, JWT_SECRET)
-}
-
 router.post(
   "/api/buyers/signUp",
   [
@@ -38,6 +28,8 @@ router.post(
       .isLength({ min: 6, max: 16 })
       .withMessage("Please enter your Password"),
   ],                                                    
+
+  auth,
 
   async (req: Request, res: Response) => {
     const errors = validationResult(req); 
@@ -61,13 +53,19 @@ router.post(
 
       await buyer.save();
 
-      const jwtToken = generateToken(buyer);
+      const jwtToken = await JwtToken.generateJwt(buyer);
 
       console.log(`buyer: ${buyer}, token: ${jwtToken}`);            
       
-      // setting a cookie & storing the "jwt" after the user has been created in the database & 
-      //res.cookie('myCookie', jwtToken);
+      // setting a cookie & storing the "jwt" after the user has been created in the database
+      res.cookie('jwtToken', jwtToken, {httpOnly: true, expires: new Date ( Date.now() + 5000 )});
 
+      console.log("cookies for Tanish: ", req.cookies);
+
+      setTimeout(() => {
+        console.log("cookies from setTimeout: ", req.cookies);
+      }, 10000)
+      
       res.status(201).send({buyer, jwtToken});
     }
 
@@ -78,3 +76,4 @@ router.post(
 );
 
 export { router as signUpRouter };
+

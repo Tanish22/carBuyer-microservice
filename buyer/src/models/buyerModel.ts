@@ -2,15 +2,12 @@ import mongoose, { Schema } from "mongoose";
 
 import {Password} from '../helpers/password';
 
-const saltRounds: any = 8;
-const saltPW: any = process.env.BCRYPT_HASH;
-
 //  building interfaces to tell tsc to properties required to create a buyer (new Buyer)
 interface BuyerAttr {
   name: string;
   email: string;
   password: string;
-}
+} 
 
 //  tells tsc which properties & methods the buyer model will have i.e. eg. in this case, the build function that returns a Buyer Document
 interface BuyerModel extends mongoose.Model<BuyerDoc> {
@@ -59,7 +56,7 @@ buyerSchema.pre('save', async function (next: any) {
   if(buyer.isModified('password')){          
     console.log('from mongoose middleware');    
 
-    buyer.password = await Password.hashPassword(saltPW, saltRounds);    
+    buyer.password = await Password.hashPassword(buyer.password);    
   }
 
   next();
@@ -70,3 +67,4 @@ buyerSchema.pre('save', async function (next: any) {
 const Buyer = mongoose.model<BuyerDoc, BuyerModel>("buyer", buyerSchema);
 
 export { Buyer };
+

@@ -1,34 +1,26 @@
-import { userInfo } from "os";
-import passport from "passport";
-import passportJwt from 'passport-jwt';
-import {Buyer} from '../../models/buyerModel';
+import express, { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken"; 
 
-const JwtStrategy = passportJwt.Strategy;
-const ExtractJwt = passportJwt.ExtractJwt;
-const JWT_SECRET = process.env.JWT_SECRET
+const jwtSecret: any = process.env.JWT_SECRET
 
-passport.use(new JwtStrategy({
+const auth = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const token = req.cookies.token;
 
-    //  specifies where the token resides inside the request object & extracts jwt from the auth header
-    jwtFromRequest : ExtractJwt.fromHeader('authorization'),
-    
-    //  the secret key to decode token
-    secretOrKey : JWT_SECRET
-}, async (payload, done) => {   // done is the error-first callback
-    try{
-        //  find the user specified in the token (payload.sub : from generateToken function in signup)
-        const buyer = await Buyer.findById(payload.sub);
-
-        if(!buyer){            
-            return done(null, false);   // no error & user doesnt exist
+        if (!req.cookies.token){
+            return res.status(401).json('You need to Login');
         }
 
-        done(null, buyer)   // no error & user does exist
+        const validToken = await jwt.verify(token, jwtSecret);
+
+        console.log("validToken ", validToken);        
     }
-    catch(error){
-        done(error, false)  // there is an error
+
+    catch (error) {
+        console.log("from auth ", error);
     }
-}))
 
+    next();
+}
 
-
+export {auth};
