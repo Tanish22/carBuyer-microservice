@@ -22,8 +22,6 @@ router.post("/api/buyers/signIn", [
     .withMessage("Please provide a Password")  
 ], 
 
-auth,
-
 async (req: Request, res: Response) => {  
   console.log("from signin");
   

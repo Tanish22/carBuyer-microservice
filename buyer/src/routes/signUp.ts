@@ -29,8 +29,6 @@ router.post(
       .withMessage("Please enter your Password"),
   ],                                                    
 
-  auth,
-
   async (req: Request, res: Response) => {
     const errors = validationResult(req); 
 
@@ -59,8 +57,6 @@ router.post(
       
       // setting a cookie & storing the "jwt" after the user has been created in the database
       res.cookie('jwtToken', jwtToken, {httpOnly: true, expires: new Date ( Date.now() + 5000 )});
-
-      console.log("cookies for Tanish: ", req.cookies);
 
       setTimeout(() => {
         console.log("cookies from setTimeout: ", req.cookies);

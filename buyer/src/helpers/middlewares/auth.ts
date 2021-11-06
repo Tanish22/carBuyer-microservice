@@ -11,14 +11,16 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
             return res.status(401).json('You need to Login');
         }
 
-        const validToken = await jwt.verify(token, jwtSecret);
-
-        console.log("validToken ", validToken);        
+        const validToken = await jwt.verify(token, jwtSecret); 
+        
+        if (!validToken) {
+            return res.status(401).json('Access Denied!!');
+        }
     }
 
     catch (error) {
-        console.log("from auth ", error);
-    }
+        console.log("from auth middleware: ", error);
+    }   
 
     next();
 }
