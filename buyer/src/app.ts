@@ -37,7 +37,7 @@ app.use(currentUserRouter);
 app.use(deleteBuyerRouter);
 app.use(allBuyers);
 
-app.get('/api', (req: Request, res: Response) => {
+app.get('/api/welcome', (req: Request, res: Response) => {
   res.send('Welcome to Car Buyer !!')
 })
 

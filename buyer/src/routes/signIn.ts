@@ -6,6 +6,8 @@ import { Buyer } from "../models/buyerModel";
 import { JwtToken } from "../helpers/jwtToken";
 import { Password } from "../helpers/password";
 import { auth } from "../helpers/middlewares/auth";
+import { log } from "console";
+import { allBuyers } from "./allBuyers";
 
 const router = express.Router();
 
@@ -34,23 +36,12 @@ async (req: Request, res: Response) => {
   const {email, password} = req.body;
 
   const buyer = await Buyer.findOne({email});
-
-  // console.log(buyer);
-  
-  console.log("request cookies: ", req.cookies);
   
   if(!buyer){
     throw new Error("Invalid Credentials !");
   }
 
-  console.log("password ", password);
-  
-  console.log("buyer.password ", buyer.password);
-  
-  //const pwMatches = await bcrypt.compare(password, buyer.password);
   const pwMatches = await Password.comparePassword(password, buyer.password);
-
-  console.log("pwMatches ", pwMatches);
 
   if(!pwMatches){
     throw new Error("Invalid Credentials");
@@ -58,11 +49,10 @@ async (req: Request, res: Response) => {
 
   const jwtToken = await JwtToken.generateJwt(buyer);
 
-  res.cookie("signIn-jwt", jwtToken, {"httpOnly": true});
+  res.cookie("carBuyer-jwt", jwtToken, {"httpOnly": true})
+     .json({ message: "Logged in successfully !!" });     
 
-  // console.log(buyer);
-
-  res.status(200).send(buyer);
+  // res.status(200).send(buyer).json({ message: "Logged in successfully !!" })
 });
 
 export { router as signInRouter };

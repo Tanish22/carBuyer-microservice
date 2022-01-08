@@ -6,7 +6,6 @@ import { body, validationResult } from "express-validator";
 
 import { Buyer } from "../models/buyerModel";
 import { JwtToken } from "../helpers/jwtToken"; 
-import { auth } from "../helpers/middlewares/auth";
 
 const router = express.Router();
 
@@ -53,20 +52,15 @@ router.post(
 
       const jwtToken = await JwtToken.generateJwt(buyer);
 
-      console.log(`buyer: ${buyer}, token: ${jwtToken}`);            
-      
       // setting a cookie & storing the "jwt" after the user has been created in the database
-      res.cookie('jwtToken', jwtToken, {httpOnly: true, expires: new Date ( Date.now() + 5000 )});
+      res.cookie("carBuyer-jwt", jwtToken, {httpOnly: true})
+         .send({buyer, jwtToken});;
 
-      setTimeout(() => {
-        console.log("cookies from setTimeout: ", req.cookies);
-      }, 10000)
-      
-      res.status(201).send({buyer, jwtToken});
+      //res.status(201).send({buyer, jwtToken});
     }
 
-    catch(e){
-      console.log(e);                       
+    catch(error){
+      return res.status(500).send({message: error})                       
     }
   }
 );

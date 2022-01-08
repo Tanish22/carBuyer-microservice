@@ -19,6 +19,16 @@ content-type: application/json
 
 ###
 
+POST http://localhost:2222/api/buyers/signIn HTTP/1.1
+content-type: application/json
+
+{
+    "email": "black@sails.com",
+    "password": "blacksails"
+}
+
+###
+
 POST http://localhost:2222/api/buyers/signUp
 content-Type: application/json
 
@@ -51,11 +61,11 @@ content-Type: application/json
 
 ###
 
-GET http://localhost:2222/api/buyers/currentUser/60685e0e2a7ba90728ea339f HTTP/1.1
+GET http://localhost:2222/api/buyers/currentUser HTTP/1.1
 
 ###
 
-POST http://localhost:2222/api/buyers/signOut HTTP/1.1
+GET http://localhost:2222/api/buyers/signOut HTTP/1.1
 
 
 ###

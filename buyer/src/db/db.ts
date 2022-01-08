@@ -11,7 +11,9 @@ const connectDB = async () => {
       useCreateIndex: true,
     });
 
-  } catch (error) {
+  } 
+  
+  catch (error) {
     console.log(`${error} : Cant connect to the database !!`);
   }
 

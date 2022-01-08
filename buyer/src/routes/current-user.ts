@@ -1,15 +1,10 @@
 import express, { Request, Response } from "express";
-import { Buyer } from "../models/buyerModel";
+import { auth } from "../helpers/middlewares/auth";
 
 const router = express.Router();
 
-router.get("/api/buyers/currentUser/:id", async (req: Request, res: Response) => {
-  const _id = req.params.id;
-  const buyer = await Buyer.findById({_id});
-
-  console.log(buyer);  
-
-  res.send(buyer);
-});
+// router.get("/api/buyers/currentUser", auth, async (req: Request, res: Response) => {
+//   res.send(buyer);
+// });
 
 export { router as currentUserRouter };
